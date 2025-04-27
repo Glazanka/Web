@@ -2,7 +2,7 @@
 
 .card {
   cursor: pointer;
-  height: 15em;
+  height: 10em;
   width: 10em;
   padding: 1rem;
   border-radius: .8em;
@@ -14,7 +14,7 @@
   &:hover {
     scale: 1.05;
 
-    .card__menu-button {
+    .card__menu--button {
       opacity: 1;
       visibility: visible;
     }
@@ -28,41 +28,30 @@
     text-align: center;
   }
 
-  &__buttons {
-    @include flex(center, center, row);
 
-    &--edit {
-      @include button($edit, white);
-    }
-
-    &--delete {
-      @include button(red, white);
-    }
-  }
-
-  &__menu-container {
+  &__menu--container {
     position: absolute;
     top: 0.5rem;
     right: 0.5rem;
   }
 
-  &__menu-button {
+  &__menu--button {
     background: none;
     border: none;
     font-size: 1.5rem;
+    font-weight: bolder;
     cursor: pointer;
     opacity: 0;
-    visibility: hidden;
+    // visibility: hidden;
     transition: opacity 0.2s;
     color: var(--text-color);
   }
 
-  &__menu-popup {
+  &__menu--popup {
     position: absolute;
     top: 2rem;
     right: 0;
     background: var(--card-background);
-    border: 1px solid var(--border-color, #ccc);
     border-radius: 0.5rem;
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     padding: 0.5rem;
@@ -77,7 +66,6 @@
       padding: 0.3rem 0.5rem;
       border: none;
       background: none;
-      color: var(--text-color);
       cursor: pointer;
 
       &:hover {

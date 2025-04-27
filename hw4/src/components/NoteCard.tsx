@@ -35,10 +35,10 @@ const NoteCard = ({ note, onEdit, onDelete, onCardClick }: NoteCardProps) => {
     <div className="card" onClick={() => onCardClick(note)}>
     <h3 className="card__title">{note.title}</h3>
   
-    <div className="card__menu-container" onClick={(e) => e.stopPropagation()}>
-      <div className="card__menu-button" onClick={handleMenuClick}>⋯</div>
+    <div className="card__menu--container" onClick={(e) => e.stopPropagation()}>
+      <div className="card__menu--button" onClick={handleMenuClick}>⋯</div>
       {menuOpen && (
-        <div className="card__menu-popup" ref={menuRef}>
+        <div className="card__menu--popup" ref={menuRef}>
           <button className="card__buttons--edit" onClick={() => onEdit(note)}>Edit</button>
           <button className="card__buttons--delete" onClick={() => onDelete(note.id)}>Delete</button>
         </div>

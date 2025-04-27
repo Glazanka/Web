@@ -89,14 +89,11 @@ const App = () => {
 
   return (
     <div className="app">
-      <header className="app__header">
-        <h1>Notes in the Cloud</h1>
-        <button onClick={toggleTheme} className="theme-toggle__button">
-          Toggle Theme
-        </button>
+      <h1>Notes in the Cloud</h1>
 
-      </header>
-
+      <button onClick={toggleTheme} className="theme-toggle-button">
+        Toggle Theme
+      </button>
 
       {isEditing ? (
         <NoteEditor note={editingNote} onSave={handleSave} onCancel={handleCancel} />
@@ -108,7 +105,7 @@ const App = () => {
             onDelete={handleDelete}
             onCardClick={handleCardClick} // ново
           />
-          <button className="app__add-button" onClick={handleAddNew}>Add New Note</button>
+          <button className="add-button" onClick={handleAddNew}>Add New Note</button>
         </>
       )}
 
