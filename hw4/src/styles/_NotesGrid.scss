@@ -1,7 +1,11 @@
-.notes-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 16px;
-    margin-top: 20px;
+@import "./variables";
+
+.notes{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* Центрира картите */
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1rem;
   }
   

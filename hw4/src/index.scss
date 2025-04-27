@@ -1,21 +1,60 @@
-.app {
-  max-width: 1000px;
-  margin: 0 auto;
-  padding: 20px;
+@import './styles/variables.scss'; // Импортиране на променливите
+
+body {
+  // по подразбиране (може да сложим светла тема като базова)
+  --background-color: white;
+  --text-color: black;
+  --button-background: #f0f0f0;
+  --button-text: black;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
   text-align: center;
+}
 
-  .add-button {
-    margin-top: 20px;
-    padding: 12px 24px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    font-size: 16px;
-    border-radius: 8px;
-    cursor: pointer;
+// Когато body има клас .light-theme
+body.light-theme {
+  --background-color: rgb(224, 224, 224);
+  --text-color: black;
+  --button-background: #f0f0f0;
+  --button-text: black;
 
-    &:hover {
-      background-color: #0056b3;
-    }
+  .card {
+    background-color: white;
+    box-shadow: 0 0 7px -3px black;
   }
 }
+
+// Когато body има клас .dark-theme
+body.dark-theme {
+  --background-color: #121212;
+  --text-color: white;
+  --button-background: #333;
+  --button-text: white;
+
+  .card {
+    box-shadow: 0 0 17px -3px white;
+    background-color: white;
+  }
+
+}
+
+/* Тогава използваш променливите така: */
+
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+button {
+  background-color: var(--button-background);
+  color: var(--button-text);
+}
+
+h1 {  
+  color: var(--text-color);
+}
+
+
+

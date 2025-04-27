@@ -1,5 +1,6 @@
-import { Note } from "../types/Note";
 import { useState, useEffect } from "react";
+import { Note } from "../types/Note";
+import "../styles/_NoteEditor.scss"
 
 interface NoteEditorProps {
   note: Note | null;
@@ -8,20 +9,21 @@ interface NoteEditorProps {
 }
 
 const NoteEditor = ({ note, onSave, onCancel }: NoteEditorProps) => {
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
+  const [title, setTitle] = useState<string>(note?.title || "");
+  const [content, setContent] = useState<string>(note?.content || "");
 
+  // При промяна на note (например при натискане "Edit"), да презареди полетата
   useEffect(() => {
-    if (note) {
-      setTitle(note.title);
-      setContent(note.content);
-    } else {
-      setTitle("");
-      setContent("");
-    }
+    setTitle(note?.title || "");
+    setContent(note?.content || "");
   }, [note]);
 
   const handleSave = () => {
+    if (title.trim() === "" || content.trim() === "") {
+      alert("Title and Content cannot be empty!");
+      return;
+    }
+
     const newNote: Note = {
       id: note ? note.id : Date.now(),
       title,
@@ -31,21 +33,25 @@ const NoteEditor = ({ note, onSave, onCancel }: NoteEditorProps) => {
   };
 
   return (
-    <div className="note-editor">
+    <div className="editor">
       <input
+      className="editor__title"
         type="text"
-        placeholder="Title"
+        placeholder="Title..."
         value={title}
+        maxLength={30}
         onChange={(e) => setTitle(e.target.value)}
       />
       <textarea
-        placeholder="Content"
+      className="editor__desc"
+        placeholder="Content..."
+        maxLength={300}
         value={content}
         onChange={(e) => setContent(e.target.value)}
       />
-      <div className="editor-buttons">
-        <button onClick={handleSave}>Save</button>
-        <button onClick={onCancel}>Cancel</button>
+      <div className="editor__buttons">
+        <button className="editor__buttons--save" onClick={handleSave}>Save</button>
+        <button className="editor__buttons--cancel" onClick={onCancel}>Cancel</button>
       </div>
     </div>
   );

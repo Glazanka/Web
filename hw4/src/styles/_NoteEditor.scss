@@ -1,7 +1,9 @@
-.note-editor {
+@import "./variables";
+
+.editor {
     margin-top: 20px;
   
-    input, textarea {
+    &__title, &__desc {
       width: 100%;
       margin-bottom: 10px;
       padding: 8px;
@@ -9,11 +11,14 @@
       border-radius: 6px;
       border: 1px solid #ccc;
     }
+    &__desc{
+        resize: none;
+    }
   
-    .editor-buttons {
+    &__buttons {
       margin-top: 10px;
   
-      button {
+      &--save {
         margin-right: 8px;
         padding: 8px 16px;
         border: none;
@@ -22,7 +27,7 @@
         color: white;
         cursor: pointer;
   
-        &:last-child {
+        &--cancel {
           background-color: #6c757d;
         }
       }
