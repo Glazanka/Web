@@ -1,28 +1,36 @@
 @import './styles/variables.scss'; // Импортиране на променливите
 
+.app__header {
+  @include flex(center, center, row)
+}
+
 body {
   // по подразбиране (може да сложим светла тема като базова)
   --background-color: white;
   --text-color: black;
-  --button-background: #f0f0f0;
-  --button-text: black;
+  height: 100vh;
+  height: 100svh;
+  margin: 0;
+  padding: 0;
 
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  @include flex(center, center, column);
   text-align: center;
+  transition: all .2s;
 }
 
 // Когато body има клас .light-theme
 body.light-theme {
   --background-color: rgb(224, 224, 224);
   --text-color: black;
-  --button-background: #f0f0f0;
-  --button-text: black;
 
   .card {
-    background-color: white;
+    background-color: rgb(76, 76, 76);
     box-shadow: 0 0 7px -3px black;
+    color: white;
+
+    &:hover {
+      box-shadow: 0 0 13px -3px black;
+    }
   }
 }
 
@@ -34,8 +42,12 @@ body.dark-theme {
   --button-text: white;
 
   .card {
-    box-shadow: 0 0 17px -3px white;
+    box-shadow: 0 0 7px -3px white;
     background-color: white;
+    color: black;
+    &:hover {
+      box-shadow: 0 0 13px -3px white;
+    }
   }
 
 }
@@ -47,14 +59,10 @@ body {
   color: var(--text-color);
 }
 
-button {
-  background-color: var(--button-background);
-  color: var(--button-text);
-}
-
-h1 {  
+h1 {
   color: var(--text-color);
 }
 
-
-
+.app__add-button {
+  @include button($action-color, black);
+}

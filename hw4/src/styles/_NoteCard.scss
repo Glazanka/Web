@@ -4,26 +4,92 @@
   cursor: pointer;
   height: 15em;
   width: 10em;
-    padding: 1rem;
-    border-radius: 0.3em;
-    margin: 0.5rem;
-    transition: all 0.1s ease;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    flex-direction: column;
-  
-    &__title {
-      margin: 0;
-      font-size: 1.2rem;
-      width: 100%;
-      word-wrap: break-word;
-    }
-    
-    &__buttons {
-      top: 8px;
-      right: 8px;
+  padding: 1rem;
+  border-radius: .8em;
+  margin: 0.5rem;
+  transition: all 0.2s ease;
+  @include flex(space-around, center, column);
+  position: relative; // заради попъпа
 
+  &:hover {
+    scale: 1.05;
+
+    .card__menu-button {
+      opacity: 1;
+      visibility: visible;
     }
   }
-  
+
+  &__title {
+    margin: 0;
+    font-size: 1.2rem;
+    width: 100%;
+    word-wrap: break-word;
+    text-align: center;
+  }
+
+  &__buttons {
+    @include flex(center, center, row);
+
+    &--edit {
+      @include button($edit, white);
+    }
+
+    &--delete {
+      @include button(red, white);
+    }
+  }
+
+  &__menu-container {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+  }
+
+  &__menu-button {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s;
+    color: var(--text-color);
+  }
+
+  &__menu-popup {
+    position: absolute;
+    top: 2rem;
+    right: 0;
+    background: var(--card-background);
+    border: 1px solid var(--border-color, #ccc);
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    padding: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    animation: fadeIn 0.2s ease;
+
+    button {
+      width: 100%;
+      text-align: left;
+      padding: 0.3rem 0.5rem;
+      border: none;
+      background: none;
+      color: var(--text-color);
+      cursor: pointer;
+
+      &:hover {
+        background-color: var(--hover-background, #eee);
+        border-radius: 0.3rem;
+      }
+    }
+  }
+}
+
+// Анимация за появата на менюто
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}

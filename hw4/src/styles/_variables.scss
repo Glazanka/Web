@@ -1,3 +1,24 @@
+$action-color: #CDFD34;
+$cancel: red;
+$edit: #72AABB;
+
+@mixin button($background-color, $text-color){
+    cursor: pointer;
+    background-color: $background-color;
+    color: $text-color;
+    transition: all 0.3s;
+    padding: 7px 17px;
+    border: 2px solid transparent;
+    font-weight: bold;
+    border-radius: 0.3em;
+
+    &:hover{
+        border: 2px solid $background-color;
+        color: $background-color;
+        background-color: transparent;
+    }
+}
+
 @mixin flex($justify-content, $align-items, $flex-direction) {
     display: flex;
     justify-content: $justify-content;

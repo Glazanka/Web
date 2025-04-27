@@ -108,7 +108,7 @@ const App = () => {
             onDelete={handleDelete}
             onCardClick={handleCardClick} // ново
           />
-          <button className="add-button" onClick={handleAddNew}>Add New Note</button>
+          <button className="app__add-button" onClick={handleAddNew}>Add New Note</button>
         </>
       )}
 
