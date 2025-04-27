@@ -9,7 +9,7 @@
   margin: 0.5rem;
   transition: all 0.2s ease;
   @include flex(space-around, center, column);
-  position: relative; // заради попъпа
+  position: relative;
 
   &:hover {
     scale: 1.05;
@@ -38,11 +38,10 @@
   &__menu--button {
     background: none;
     border: none;
-    font-size: 1.5rem;
+    font-size: 1.7rem;
     font-weight: bolder;
     cursor: pointer;
     opacity: 0;
-    // visibility: hidden;
     transition: opacity 0.2s;
     color: var(--text-color);
   }
@@ -76,7 +75,6 @@
   }
 }
 
-// Анимация за появата на менюто
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(-5px); }
   to { opacity: 1; transform: translateY(0); }

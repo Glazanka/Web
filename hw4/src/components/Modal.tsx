@@ -8,8 +8,6 @@ interface ModalProps {
 }
 
 const Modal = ({ note, onClose }: ModalProps) => {
-
-  // Затваряне при натискане Escape
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {

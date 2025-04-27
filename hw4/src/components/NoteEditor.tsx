@@ -12,7 +12,6 @@ const NoteEditor = ({ note, onSave, onCancel }: NoteEditorProps) => {
   const [title, setTitle] = useState<string>(note?.title || "");
   const [content, setContent] = useState<string>(note?.content || "");
 
-  // При промяна на note (например при натискане "Edit"), да презареди полетата
   useEffect(() => {
     setTitle(note?.title || "");
     setContent(note?.content || "");

@@ -13,7 +13,7 @@ const App = () => {
   const [editingNote, setEditingNote] = useState<Note | null>(null);
   const [selectedNote, setSelectedNote] = useState<Note | null>(null);
   const [isEditing, setIsEditing] = useState(false);
-  const [theme, setTheme] = useState<'light' | 'dark'>('light'); // Управление на темата
+  const [theme, setTheme] = useState<'light' | 'dark'>('dark');
 
 
   useEffect(() => {
@@ -27,12 +27,11 @@ const App = () => {
       }
     }
 
-    // Приложи текущата тема
     document.body.classList.add(theme === 'light' ? 'light-theme' : 'dark-theme');
     return () => {
       document.body.classList.remove('light-theme', 'dark-theme');
     };
-  }, [theme]); // Актуализиране на темата при промяна
+  }, [theme]);
 
   useEffect(() => {
     if (notes.length > 0) {
@@ -91,7 +90,7 @@ const App = () => {
     <div className="app">
       <h1>Notes in the Cloud</h1>
 
-      <button onClick={toggleTheme} className="theme-toggle-button">
+      <button onClick={toggleTheme} className="theme-toggle--button">
         Toggle Theme
       </button>
 
@@ -103,12 +102,11 @@ const App = () => {
             notes={notes} 
             onEdit={handleEdit} 
             onDelete={handleDelete}
-            onCardClick={handleCardClick} // ново
+            onCardClick={handleCardClick}
           />
-          <button className="add-button" onClick={handleAddNew}>Add New Note</button>
+          <button className="add--button" onClick={handleAddNew}>Add New Note</button>
         </>
       )}
-
       {selectedNote && (
         <Modal note={selectedNote} onClose={handleCloseModal} />
       )}

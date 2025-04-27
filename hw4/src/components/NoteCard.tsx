@@ -12,7 +12,6 @@ const NoteCard = ({ note, onEdit, onDelete, onCardClick }: NoteCardProps) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
-  // Затваряне на менюто при клик извън него
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
@@ -27,7 +26,7 @@ const NoteCard = ({ note, onEdit, onDelete, onCardClick }: NoteCardProps) => {
   }, []);
 
   const handleMenuClick = (e: React.MouseEvent) => {
-    e.stopPropagation(); // да не се тригърне клик на картата
+    e.stopPropagation();
     setMenuOpen(prev => !prev);
   };
 

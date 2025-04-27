@@ -2,7 +2,6 @@
 
 .editor {
   margin-top: 20px;
-
   &__title,
   &__desc {
     width: 100%;
@@ -10,7 +9,13 @@
     padding: 8px;
     font-size: 16px;
     border-radius: 6px;
-    border: 1px solid #ccc;
+    border: none;
+    transition: all 0.1s ;
+    &:focus {
+      outline-style: solid;
+      outline-color: var(--text-color);
+      outline-width: 2px;
+    }
   }
 
   &__desc {
@@ -22,17 +27,17 @@
     margin-top: 10px;
 
     &--save {
+      cursor: pointer;
       margin-right: 8px;
       padding: 8px 16px;
       border: none;
       border-radius: 6px;
-      background-color: #28a745;
-      color: white;
-      cursor: pointer;
+      @include button($edit, white)
 
-      &--cancel {
-        background-color: #6c757d;
-      }
+    }
+    &--cancel {
+      background-color: #6c757d;
+      @include button(red,white)
     }
   }
 }
