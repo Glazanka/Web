@@ -1,0 +1,31 @@
+.note-editor {
+    margin-top: 20px;
+  
+    input, textarea {
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 8px;
+      font-size: 16px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+  
+    .editor-buttons {
+      margin-top: 10px;
+  
+      button {
+        margin-right: 8px;
+        padding: 8px 16px;
+        border: none;
+        border-radius: 6px;
+        background-color: #28a745;
+        color: white;
+        cursor: pointer;
+  
+        &:last-child {
+          background-color: #6c757d;
+        }
+      }
+    }
+  }
+  
