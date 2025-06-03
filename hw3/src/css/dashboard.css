@@ -1,0 +1,92 @@
+html,
+body {
+    height: 100vh;
+}
+
+body {
+    font-family: optima, sans-serif;
+    background-image: linear-gradient(#AEE4FF, white);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+header {
+   margin-top: 80px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+header h1 {
+    font-size: 37px;
+    margin-bottom: 10px;
+}
+
+header h2 {
+    font-size: 27px;
+}
+
+main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    /* Центриране по вертикала */
+}
+
+.notes-container {
+    display: flex;
+    flex-direction: column;
+    /* Подредба една под друга */
+    gap: 20px;
+    width: 300px;
+    margin-bottom: 30px;
+    /* Разстояние над бутона */
+}
+
+.note-card {
+    background-color: white;
+    padding: 15px;
+    border-radius: 0.7em;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.note-card h3 {
+    margin-top: 0;
+}
+
+.logout-button {
+    padding: 10px 20px;
+    border: 2px solid black;
+    background-color: black;
+    color: white;
+    border-radius: 0.5em;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.logout-button:hover {
+    background-color: white;
+    color: black;
+}
+
+.icon-button{
+     padding: 5px 5px;
+      background-color: white;
+      border: 1px solid gray;
+      color: black;
+      border-radius: 0.5em;
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+
+}
+
+.icon-button:hover {
+    background-color: #ededed;
+    color: black;
+}

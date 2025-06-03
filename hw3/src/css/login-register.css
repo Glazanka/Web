@@ -1,0 +1,74 @@
+body {
+  height: 100vh;
+  background-image: linear-gradient(#AEE4FF, white);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: optima, sans-serif;
+  margin: 0;
+}
+
+.main-signup-login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.login-signup-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 300px;
+  margin-top: 20px;
+}
+
+.header-signup-login {
+  text-align: center;
+}
+
+.header-signup-login h1 {
+  font-size: 32px;
+  margin-bottom: 10px;
+}
+
+.input-signup-login {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid gray;
+}
+
+.submit-button {
+  padding: 10px;
+  background-color: black;
+  color: white;
+  border: 2px solid black;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.submit-button:hover {
+  background-color: white;
+  color: black;
+  }
+
+.redirect-information {
+  text-align: center;
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+.redirect-link {
+  color: black;
+  font-weight: bold;
+  text-decoration: underline;   
+  cursor: pointer;              
+}
+
+.avatar-upload {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 6px;
+}
