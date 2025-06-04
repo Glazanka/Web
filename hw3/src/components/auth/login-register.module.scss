@@ -1,0 +1,104 @@
+body {
+  height: 100vh;
+  background-image: linear-gradient(#AEE4FF, white);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: optima, sans-serif;
+  margin: 0;
+}
+
+.mainSignupLogin {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.loginSignupForm {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 300px;
+  margin-top: 20px;
+}
+
+.headerSignupLogin {
+  text-align: center;
+
+  h1 {
+    font-size: 32px;
+    margin-bottom: 10px;
+  }
+}
+
+.inputSignupLogin {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid gray;
+  font-family: inherit;
+}
+
+.inputError {
+  border-color: red;
+  outline: none;
+}
+
+.errorText {
+  color: red;
+  font-size: 12px;
+  margin-top: -8px;
+  margin-bottom: 4px;
+  margin-left: 4px;
+}
+
+.submitButton {
+  padding: 10px;
+  background-color: black;
+  color: white;
+  border: 2px solid black;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.2s;
+
+  &:hover {
+    background-color: white;
+    color: black;
+  }
+}
+
+.redirectInformation {
+  text-align: center;
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+.redirectLink {
+  color: black;
+  font-weight: bold;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.avatarUpload {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.iconButton {
+  padding: 5px 5px;
+  background-color: white;
+  border: 1px solid gray;
+  color: black;
+  border-radius: 0.5em;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover {
+    background-color: #ededed;
+    color: black;
+  }
+}
