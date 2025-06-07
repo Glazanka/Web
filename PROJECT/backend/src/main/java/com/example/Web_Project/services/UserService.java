@@ -4,20 +4,17 @@ import com.example.Web_Project.dtos.UserDto;
 import com.example.Web_Project.mappers.UserMapper;
 import com.example.Web_Project.models.User;
 import com.example.Web_Project.repos.UserRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
-
-    public UserService(UserRepository userRepository, UserMapper userMapper) {
-        this.userRepository = userRepository;
-        this.userMapper = userMapper;
-    }
 
     public List<UserDto> getAllUsers() {
         return userRepository.findAll()

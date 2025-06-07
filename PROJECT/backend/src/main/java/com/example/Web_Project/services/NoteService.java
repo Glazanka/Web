@@ -6,22 +6,18 @@ import com.example.Web_Project.models.Note;
 import com.example.Web_Project.models.User;
 import com.example.Web_Project.repos.NoteRepository;
 import com.example.Web_Project.repos.UserRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor
 public class NoteService {
     private final NoteRepository noteRepository;
     private final UserRepository userRepository;
     private final NoteMapper noteMapper;
-
-    public NoteService(NoteRepository noteRepository, UserRepository userRepository, NoteMapper noteMapper) {
-        this.noteRepository = noteRepository;
-        this.userRepository = userRepository;
-        this.noteMapper = noteMapper;
-    }
 
     public List<NoteDto> getAllNotes() {
         return noteRepository.findAll()

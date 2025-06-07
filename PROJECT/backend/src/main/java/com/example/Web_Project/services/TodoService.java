@@ -6,22 +6,18 @@ import com.example.Web_Project.models.Todo;
 import com.example.Web_Project.models.User;
 import com.example.Web_Project.repos.TodoRepository;
 import com.example.Web_Project.repos.UserRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor
 public class TodoService {
     private final TodoRepository todoRepository;
     private final UserRepository userRepository;
     private final TodoMapper todoMapper;
-    public TodoService(TodoRepository todoRepository, UserRepository userRepository, TodoMapper todoMapper) {
-        this.todoRepository = todoRepository;
-        this.userRepository = userRepository;
-        this.todoMapper = todoMapper;
-    }
-
     public List<TodoDto> getAllTodos() {
         return todoRepository.findAll()
                 .stream()
