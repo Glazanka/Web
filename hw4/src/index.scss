@@ -28,14 +28,13 @@ body {
   }
 }
 
-
-
 // Когато body има клас .light-theme
 body.light-theme {
   --background-color: rgb(224, 224, 224);
   --text-color: black;
   --card-background: rgb(224, 224, 224);
   --hover-background: #a6a5a5;
+
 
 
   .card {
