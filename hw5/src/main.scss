@@ -1,0 +1,23 @@
+
+$primary:  #2599eb;
+$surface:  #ffffff;
+$surface-alt:  #f3f4f6;
+$radius:  12px;
+$shadow:  0 4px 12px rgba(0, 0, 0, 0.08);
+$font-family:  system-ui, sans-serif;
+
+:root {
+  --primary: #{$primary};
+  --surface: #{$surface};
+  --surface-alt: #{$surface-alt};
+  --radius: #{$radius};
+  --shadow: #{$shadow};
+}
+
+html, body {
+  font-family: $font-family;
+  margin: 0;
+  background: $surface-alt;
+  display: flex;
+  justify-content: center;
+}

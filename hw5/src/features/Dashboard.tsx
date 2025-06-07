@@ -1,48 +1,61 @@
-// src/features/Dashboard.tsx
 import React, { useEffect, useRef } from "react";
 import api from "../api";
 
 interface UpcomingReminder {
   id: string;
-  text: string;
+  noteId: string;
   remindAt: string;
-  isSent: boolean;
+  sent: boolean;
 }
 
 export default function Dashboard(): null {
-  // Инициализираме ref-а с undefined
   const intervalRef = useRef<number | undefined>(undefined);
+  const userId = localStorage.getItem("userId");
 
   useEffect(() => {
+    if (!userId) {
+      console.error("No userId in localStorage");
+      return;
+    }
+
     const checkReminders = () => {
       api
-        .get<UpcomingReminder[]>("/reminders/upcoming")
+        .get<UpcomingReminder[]>(`/api/reminders/upcoming?userId=${userId}`)
         .then((res) => {
-          const now = Date.now();
-          res.data.forEach((r) => {
-            const remindTime = new Date(r.remindAt).getTime();
-            if (remindTime <= now && !r.isSent) {
-              if ("Notification" in window && Notification.permission === "granted") {
-                new Notification("Напомняне", { body: r.text });
-              } else {
-                alert(`Напомняне: ${r.text}`);
+          const now = new Date();
+          res.data.forEach((reminder) => {
+            const remindTime = new Date(reminder.remindAt);
+            // If it’s not yet sent and time ≤ now
+            if (!reminder.sent && remindTime <= now) {
+              // Show browser notification
+              if (Notification.permission === "granted") {
+                new Notification("Reminder", {
+                  body: `Time to review note #${reminder.noteId}`,
+                });
               }
+
+              // Mark as sent in backend
               api
-                .put(`/reminders/${r.id}/markSent`)
-                .catch((err) => console.error("Грешка при markSent:", err));
+                .put(`/api/reminders/${reminder.id}/markSent?userId=${userId}`)
+                .catch((err) => console.error("Error marking as sent:", err));
             }
           });
         })
-        .catch((err) => {
-          console.error("Грешка при polling:", err);
-        });
+        .catch((err) => console.error("Error fetching upcoming reminders:", err));
     };
 
-    if ("Notification" in window && Notification.permission !== "granted") {
-      Notification.requestPermission();
+    // Request permission for notifications if not yet decided
+    if (Notification.permission !== "granted" && Notification.permission !== "denied") {
+      Notification.requestPermission().then((permission) => {
+        if (permission !== "granted") {
+          console.warn("User denied notifications.");
+        }
+      });
     }
 
+    // Initial check immediately
     checkReminders();
+    // Then poll every 60 seconds
     intervalRef.current = window.setInterval(checkReminders, 60000);
 
     return () => {
@@ -50,7 +63,7 @@ export default function Dashboard(): null {
         clearInterval(intervalRef.current);
       }
     };
-  }, []);
+  }, [userId]);
 
   return null;
 }

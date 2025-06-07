@@ -1,6 +1,6 @@
 import React from "react";
 import ReminderApp from "./features";
-import "./main.css";
+import "./main.scss";
 
 export default function App() {
   return <ReminderApp />;

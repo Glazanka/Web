@@ -6,7 +6,6 @@ const api = axios.create({ baseURL: API_BASE_URL });
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem("jwt");
   if (token) {
-    // Уверяваме се, че headers никога не е undefined
     if (!config.headers) {
       config.headers = {} as any;
     }

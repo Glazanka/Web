@@ -1,2 +1,2 @@
-import "./reminder.css";
+import "./reminder.scss";
 export { default } from "./ReminderApp";

@@ -1,31 +1,53 @@
+// src/features/ReminderList.tsx
 import React, { useState, useEffect } from "react";
 import api from "../api";
 
 interface Reminder {
   id: string;
-  text: string;
-  remindAt: string;
   noteId: string;
-  noteTitle: string;
-  isSent: boolean;
+  remindAt: string;
+  sent: boolean;
+}
+
+interface Note {
+  id: string;
+  title: string;
 }
 
 export default function ReminderList(): JSX.Element {
   const [reminders, setReminders] = useState<Reminder[]>([]);
+  const [notesMap, setNotesMap] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState<boolean>(true);
 
+  const userId = localStorage.getItem("userId");
+
+  useEffect(() => {
+    // Load all notes so we can display note titles by ID
+    api
+      .get<Note[]>("/api/notes")
+      .then((res) => {
+        const map: Record<string, string> = {};
+        res.data.forEach((n) => {
+          map[n.id] = n.title;
+        });
+        setNotesMap(map);
+      })
+      .catch((err) => console.error("Error loading notes:", err));
+  }, []);
+
   const fetchReminders = () => {
+    if (!userId) {
+      console.error("No userId in localStorage");
+      return;
+    }
     setLoading(true);
     api
-      .get<Reminder[]>("/reminders/upcoming")
-      .then(res => {
+      .get<Reminder[]>(`/api/reminders/upcoming?userId=${userId}`)
+      .then((res) => {
         setReminders(res.data);
-        setLoading(false);
       })
-      .catch(err => {
-        console.error("Неуспешно зареждане:", err);
-        setLoading(false);
-      });
+      .catch((err) => console.error("Error loading reminders:", err))
+      .finally(() => setLoading(false));
   };
 
   useEffect(() => {
@@ -33,41 +55,45 @@ export default function ReminderList(): JSX.Element {
   }, []);
 
   const handleDelete = (id: string) => {
+    if (!userId) return;
     api
-      .delete(`/reminders/${id}`)
+      .delete(`/api/reminders/${id}?userId=${userId}`)
       .then(() => {
-        setReminders(prev => prev.filter(r => r.id !== id));
+        setReminders((prev) => prev.filter((r) => r.id !== id));
       })
-      .catch(err => {
-        console.error("Грешка при изтриване:", err);
-        alert("Неуспешно изтриване.");
-      });
+      .catch((err) => console.error("Error deleting reminder:", err));
   };
 
-  if (loading) return <p>Зареждане на напомняния…</p>;
-
   return (
-    <div className="reminder-list">
-      {reminders.length === 0 ? (
-        <p>Нямате предстоящи напомняния.</p>
+    <div className="list-container">
+      <h2>Upcoming Reminders</h2>
+      {loading ? (
+        <p>Loading...</p>
+      ) : reminders.length === 0 ? (
+        <p>No upcoming reminders.</p>
       ) : (
         <table className="reminder-table">
           <thead>
             <tr>
-              <th>Бележка</th>
-              <th>Текст</th>
-              <th>Напомняне в</th>
-              <th>Действие</th>
+              <th>Note</th>
+              <th>Date & Time</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
-            {reminders.map(r => (
-              <tr key={r.id}>
-                <td>{r.noteTitle}</td>
-                <td>{r.text}</td>
-                <td>{new Date(r.remindAt).toLocaleString("bg-BG")}</td>
+            {reminders.map((r) => (
+              <tr key={r.id} className={r.sent ? "sent" : ""}>
+                <td>{notesMap[r.noteId] || "(no title)"}</td>
                 <td>
-                  <button onClick={() => handleDelete(r.id)}>Delete</button>
+                  {new Date(r.remindAt).toLocaleString("en-GB", {
+                    dateStyle: "short",
+                    timeStyle: "short",
+                  })}
+                </td>
+                <td>
+                  <button className="deleteBtn" onClick={() => handleDelete(r.id)}>
+                    Delete
+                  </button>
                 </td>
               </tr>
             ))}

@@ -2,7 +2,7 @@ import React from "react";
 import ReminderForm from "./ReminderForm";
 import ReminderList from "./ReminderList";
 import Dashboard from "./Dashboard";
-import "./reminder.css";
+import "./reminder.scss";
 
 export default function ReminderApp(): JSX.Element {
   return (
