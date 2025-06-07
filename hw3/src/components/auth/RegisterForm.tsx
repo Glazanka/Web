@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { Container } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import api from '../../api/axiosConfig';
 import { useAuth } from '../../context/AuthContext';
 import styles from './login-register.module.scss';
 
 const RegisterForm: React.FC = () => {
   const { login } = useAuth();
+  const navigate = useNavigate();
   const [form, setForm] = useState({ username: '', password: '', confirmPassword: '' });
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
@@ -22,10 +23,7 @@ const RegisterForm: React.FC = () => {
     if (!form.username) newErrors.username = 'Въведи потребителско име';
     if (!form.password) newErrors.password = 'Паролата е задължителна';
     else if (form.password.length < 6) newErrors.password = 'Минимум 6 символа';
-
-    if (form.password !== form.confirmPassword) {
-      newErrors.confirmPassword = 'Паролите не съвпадат';
-    }
+    if (form.password !== form.confirmPassword) newErrors.confirmPassword = 'Паролите не съвпадат';
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
@@ -36,10 +34,12 @@ const RegisterForm: React.FC = () => {
       const response = await api.post('/auth/register', {
         username: form.username,
         password: form.password,
+        email: ''
       });
 
-      const { token } = response.data;
+      const token = response.data.token ?? response.data; // покритие за backend, връщащ само token
       login(token);
+      navigate('/'); // автоматично пренасочване към начална страница или protected route
     } catch (error: any) {
       if (error.response?.status === 409) {
         setErrors({ username: 'Потребителското име вече съществува' });

@@ -8,7 +8,8 @@ interface Props {
 
 const PrivateRoute: React.FC<Props> = ({ children }) => {
   const { token } = useAuth();
-  return token ? <>{children}</> : <Navigate to="/login" replace />;
+return token ? <>{children}</> : <Navigate to="/login" replace />;
+
 };
 
 export default PrivateRoute;

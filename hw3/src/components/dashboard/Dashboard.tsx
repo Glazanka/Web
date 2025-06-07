@@ -19,11 +19,20 @@ const Dashboard: React.FC = () => {
       .catch(err => console.error('Грешка при зареждане на бележки:', err));
   }, []);
 
+  useEffect(() => {
+  if (!user) return; // изчакай токена и user да са заредени
+
+  api.get('/notes')
+    .then(res => setNotes(res.data))
+    .catch(err => console.error('Грешка при зареждане на бележки:', err));
+}, [user]);
+
+
   return (
     <div className={styles.dashboardWrapper}>
       <header className={styles.header}>
         <Avatar
-          src={user?.avatar || undefined}
+          src={undefined} // user.avatar махнато
           alt="User avatar"
           sx={{
             width: 100,

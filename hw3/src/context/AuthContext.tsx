@@ -1,53 +1,54 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import { jwtDecode } from 'jwt-decode';
+import React, { createContext, useContext, useEffect, useState } from "react";
+import { jwtDecode, JwtPayload } from "jwt-decode";
 
-interface DecodedToken {
-  username: string;
-  avatar?: string;
-  exp: number;
+interface DecodedToken extends JwtPayload {
+  sub: string;
 }
 
 interface AuthContextType {
+  user: { username: string } | null;
   token: string | null;
-  user: DecodedToken | null;
   login: (token: string) => void;
   logout: () => void;
 }
 
 const AuthContext = createContext<AuthContextType>({
-  token: null,
   user: null,
+  token: null,
   login: () => {},
   logout: () => {},
 });
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [token, setToken] = useState<string | null>(localStorage.getItem('token'));
-  const [user, setUser] = useState<DecodedToken | null>(() => {
-    const stored = localStorage.getItem('token');
-    return stored ? jwtDecode<DecodedToken>(stored) : null;
-  });
+  const [user, setUser] = useState<{ username: string } | null>(null);
+  const [token, setToken] = useState<string | null>(localStorage.getItem("token"));
 
   useEffect(() => {
     if (token) {
-      setUser(jwtDecode<DecodedToken>(token));
-      localStorage.setItem('token', token);
-    } else {
-      setUser(null);
-      localStorage.removeItem('token');
+      try {
+        const decoded = jwtDecode<DecodedToken>(token);
+        setUser({ username: decoded.sub });
+      } catch {
+        setUser(null);
+      }
     }
   }, [token]);
 
   const login = (newToken: string) => {
+    localStorage.setItem("token", newToken);
     setToken(newToken);
+    const decoded = jwtDecode<DecodedToken>(newToken);
+    setUser({ username: decoded.sub });
   };
 
   const logout = () => {
+    localStorage.removeItem("token");
     setToken(null);
+    setUser(null);
   };
 
   return (
-    <AuthContext.Provider value={{ token, user, login, logout }}>
+    <AuthContext.Provider value={{ user, token, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
