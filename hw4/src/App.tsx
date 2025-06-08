@@ -1,117 +1,32 @@
-import { useState, useEffect } from "react";
-import { Note } from "./types/Note";
-import {NotesGrid} from "./components/NotesGrid";
-import NoteEditor from "./components/NoteEditor";
+import React, { useState } from "react";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Modal from "./components/Modal";
+import NotesList from "./components/NotesList";
+import NoteEditor from "./components/NoteEditor";
+import PublicNote from "./components/PublicNote";
+import NotFound from "./components/NotFound";
+import { Note } from "./types/Note";
 
-// import "./index.scss"
-
-const LOCAL_STORAGE_KEY = "notes-app-data";
-
-const App = () => {
-  const [notes, setNotes] = useState<Note[]>([]);
-  const [editingNote, setEditingNote] = useState<Note | null>(null);
-  const [selectedNote, setSelectedNote] = useState<Note | null>(null);
-  const [isEditing, setIsEditing] = useState(false);
-  const [theme, setTheme] = useState<'light' | 'dark'>('dark');
-
-
-  useEffect(() => {
-    const savedNotes = localStorage.getItem(LOCAL_STORAGE_KEY);
-    if (savedNotes) {
-      try {
-        const parsedNotes: Note[] = JSON.parse(savedNotes);
-        setNotes(parsedNotes);
-      } catch (error) {
-        console.error("Failed to parse notes from localStorage", error);
-      }
-    }
-
-    document.body.classList.add(theme === 'light' ? 'light-theme' : 'dark-theme');
-    return () => {
-      document.body.classList.remove('light-theme', 'dark-theme');
-    };
-  }, [theme]);
-
-  useEffect(() => {
-    if (notes.length > 0) {
-      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(notes));
-    } else {
-      localStorage.removeItem(LOCAL_STORAGE_KEY);
-    }
-  }, [notes]);
-
-  const handleEdit = (note: Note) => {
-    setEditingNote(note);
-    setIsEditing(true);
-  };
-
-  const handleDelete = (id: number) => {
-    setNotes(prev => prev.filter(note => note.id !== id));
-  };
-
-  const handleSave = (note: Note) => {
-    setNotes(prev => {
-      const existing = prev.find(n => n.id === note.id);
-      if (existing) {
-        return prev.map(n => n.id === note.id ? note : n);
-      }
-      return [...prev, note];
-    });
-    setIsEditing(false);
-    setEditingNote(null);
-  };
-
-  const handleAddNew = () => {
-    setEditingNote(null);
-    setIsEditing(true);
-  };
-
-  const handleCancel = () => {
-    setIsEditing(false);
-    setEditingNote(null);
-  };
-
-  
-  const toggleTheme = () => {
-    setTheme((prevTheme) => (prevTheme === 'light' ? 'dark' : 'light'));
-  };
-
- 
-  const handleCardClick = (note: Note) => {
-    setSelectedNote(note);
-  };
-
-  const handleCloseModal = () => {
-    setSelectedNote(null);
-  };
+function App(): JSX.Element {
+  const [modalNote, setModalNote] = useState<Note | null>(null);
 
   return (
-    <div className="app">
-      <h1>Notes in the Cloud</h1>
-
-      <button onClick={toggleTheme} className="theme-toggle--button">
-        Toggle Theme
-      </button>
-
-      {isEditing ? (
-        <NoteEditor note={editingNote} onSave={handleSave} onCancel={handleCancel} />
-      ) : (
-        <>
-          <NotesGrid 
-            notes={notes} 
-            onEdit={handleEdit} 
-            onDelete={handleDelete}
-            onCardClick={handleCardClick}
-          />
-          <button className="add--button" onClick={handleAddNew}>Add New Note</button>
-        </>
+    <BrowserRouter>
+      {modalNote && (
+        <Modal
+          note={modalNote}
+          onClose={() => setModalNote(null)}
+        />
       )}
-      {selectedNote && (
-        <Modal note={selectedNote} onClose={handleCloseModal} />
-      )}
-    </div>
+      <Routes>
+        <Route path="/" element={<Navigate to="/notes" replace />} />
+        <Route path="/notes" element={<NotesList />} />
+        <Route path="/notes/:id" element={<NoteEditor />} />
+        <Route path="/public/:publicId" element={<PublicNote />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </BrowserRouter>
   );
-};
+}
 
 export default App;

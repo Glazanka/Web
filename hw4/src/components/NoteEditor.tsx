@@ -1,59 +1,84 @@
+
 import { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import api from "../api";
 import { Note } from "../types/Note";
-import "../styles/_NoteEditor.scss"
+import TodoList from "./TodoList";
+import ShareModal from "./ShareModal";
 
-interface NoteEditorProps {
-  note: Note | null;
-  onSave: (note: Note) => void;
-  onCancel: () => void;
-}
 
-const NoteEditor = ({ note, onSave, onCancel }: NoteEditorProps) => {
-  const [title, setTitle] = useState<string>(note?.title || "");
-  const [content, setContent] = useState<string>(note?.content || "");
+export default function NoteEditor() {
+  const { id } = useParams<{ id: string }>();
+  const isNew = id === "new";
+  const nav = useNavigate();
+
+  const [note, setNote] = useState<Note>({
+    id: 0, title: "", content: "",
+    todoList: [], notificationDate: null,
+    sharedWith: [], publicId: null,
+  });
+  const [showShare, setShowShare] = useState(false);
 
   useEffect(() => {
-    setTitle(note?.title || "");
-    setContent(note?.content || "");
-  }, [note]);
+    if (!isNew) {
+      api.get<Note>(`/api/notes/${id}`)
+         .then(r => setNote(r.data))
+         .catch(console.error);
+    }
+  }, [id]);
 
   const handleSave = () => {
-    if (title.trim() === "" || content.trim() === "") {
-      alert("Title and Content cannot be empty!");
-      return;
-    }
+    const method = isNew ? api.post : api.put;
+    const url = isNew ? "/api/notes" : `/api/notes/${id}`;
+    method(url, note)
+      .then(() => nav("/notes"))
+      .catch(console.error);
+  };
 
-    const newNote: Note = {
-      id: note ? note.id : Date.now(),
-      title,
-      content,
-    };
-    onSave(newNote);
+  const makePublic = () => {
+    api.post(`/api/notes/${id}/makePublic`)
+       .then(r => setNote(n => ({ ...n, publicId: r.data.publicId })))
+       .catch(console.error);
   };
 
   return (
-    <div className="editor">
+    <div>
+      <h1>{isNew ? "Create Note" : "Edit Note"}</h1>
       <input
-      className="editor__title"
-        type="text"
-        placeholder="Title..."
-        value={title}
-        maxLength={30}
-        onChange={(e) => setTitle(e.target.value)}
+        placeholder="Title"
+        value={note.title}
+        onChange={e => setNote(n => ({ ...n, title: e.target.value }))}
       />
       <textarea
-      className="editor__desc"
-        placeholder="Content..."
-        maxLength={300}
-        value={content}
-        onChange={(e) => setContent(e.target.value)}
+        placeholder="Content"
+        value={note.content}
+        onChange={e => setNote(n => ({ ...n, content: e.target.value }))}
       />
-      <div className="editor__buttons">
-        <button className="editor__buttons--save" onClick={handleSave}>Save</button>
-        <button className="editor__buttons--cancel" onClick={onCancel}>Cancel</button>
+      <label>
+        Notification Date:
+        <input
+          type="datetime-local"
+          value={note.notificationDate?.slice(0,16) || ""}
+          onChange={e => setNote(n => ({
+            ...n,
+            notificationDate: e.target.value ? new Date(e.target.value).toISOString() : null
+          }))}
+        />
+      </label>
+      <TodoList
+        todoList={note.todoList}
+        onChange={newList => setNote(n => ({ ...n, todoList: newList }))}
+      />
+      <div>
+        <button onClick={handleSave}>Save</button>
+        <button onClick={() => setShowShare(true)}>Share</button>
+        {!note.publicId && !isNew && (
+          <button onClick={makePublic}>Make Public</button>
+        )}
+        {note.publicId && <span>Public link: <a href={`/public/${note.publicId}`}>{note.publicId}</a></span>}
+        <button onClick={() => nav("/notes")}>Cancel</button>
       </div>
+      {showShare && <ShareModal noteId={note.id} onClose={() => setShowShare(false)} />}
     </div>
   );
-};
-
-export default NoteEditor;
+}
