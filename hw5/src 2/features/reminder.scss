@@ -1,7 +1,4 @@
-
-// src/features/reminder.scss
-
-@use '../main' as m;  // зареждаме main.scss като namespace „m“
+@use '../main' as m;  
 
 .wrapper {
   max-width: 540px;
@@ -10,15 +7,15 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: m.$surface;    // използваме m.$surface вместо $surface
-  border-radius: m.$radius;        // използваме m.$radius
-  box-shadow: m.$shadow;           // използваме m.$shadow
+  background-color: m.$surface;    
+  border-radius: m.$radius;        
+  box-shadow: m.$shadow;           
 }
 
 .title {
   text-align: center;
   margin-bottom: 24px;
-  color: m.$primary;   // използваме m.$primary вместо $primary
+  color: m.$primary;   
   font-size: 2.8rem;
 }
 
@@ -56,7 +53,7 @@
     transition: background 0.2s;
 
     &:hover {
-      background: #1e4fd1;  // може да си оставиш твърд цвят или да използваш darken(m.$primary, 10%)
+      background: #1e4fd1;  
     }
   }
 }

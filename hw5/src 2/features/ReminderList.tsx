@@ -1,4 +1,3 @@
-// src/features/ReminderList.tsx
 import React, { useState, useEffect } from "react";
 import api from "../api";
 
@@ -22,7 +21,6 @@ export default function ReminderList(): JSX.Element {
   const userId = localStorage.getItem("userId");
 
   useEffect(() => {
-    // Load all notes so we can display note titles by ID
     api
       .get<Note[]>("/api/notes")
       .then((res) => {

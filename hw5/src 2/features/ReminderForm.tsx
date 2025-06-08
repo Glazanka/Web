@@ -1,4 +1,3 @@
-// src/features/ReminderForm.tsx
 import React, { useState, useEffect, FormEvent } from "react";
 import api from "../api";
 
@@ -12,11 +11,9 @@ export default function ReminderForm(): JSX.Element {
   const [selectedNoteId, setSelectedNoteId] = useState<string>("");
   const [remindAt, setRemindAt] = useState<string>("");
 
-  // Get userId from localStorage
   const userId = localStorage.getItem("userId");
 
   useEffect(() => {
-    // Load all notes to populate the <select>
     api
       .get<Note[]>("/api/notes")
       .then((res) => {
@@ -35,7 +32,6 @@ export default function ReminderForm(): JSX.Element {
       return;
     }
 
-    // Send POST to backend: /api/reminders?userId=<userId>
     api
       .post(`/api/reminders?userId=${userId}`, {
         noteId: selectedNoteId,
